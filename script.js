@@ -47,6 +47,31 @@ function renderTasks() {
         todoList.appendChild(li);
     });
 }
+// 3. CHỨC NĂNG THÊM CÔNG VIỆC MỚI (MỚI)
+function addTask() {
+    const input = document.getElementById('todo-input');
+    const taskContent = input.value.trim();
+
+    if (taskContent === "") {
+        alert("Vui lòng nhập nội dung công việc!");
+        return;
+    }
+
+    // Tạo đối tượng công việc mới
+    const newTask = {
+        id: tasks.length > 0 ? tasks[tasks.length - 1].id + 1 : 1,
+        task: taskContent,
+        completed: false // Mặc định là chưa xong theo ý bạn
+    };
+
+    // Thêm vào mảng tasks
+    tasks.push(newTask);
+
+    // Xóa nội dung ô nhập và vẽ lại danh sách
+    input.value = "";
+    renderTasks();
+    console.log("Đã thêm công việc mới:", newTask);
+}
 // Hàm cập nhật trạng thái khi người dùng thay đổi trên Dropdown
 function updateStatus(index, value) {
     // Chuyển giá trị từ chuỗi "true"/"false" sang kiểu Boolean
@@ -96,3 +121,9 @@ if (savedTheme === 'dark') {
 }
 // 3. Thay window.onload bằng việc gọi hàm loadData
 document.addEventListener('DOMContentLoaded', loadData);
+// Thêm sự kiện nhấn phím Enter cho ô input
+document.getElementById('todo-input').addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+        addTask();
+    }
+});
