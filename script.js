@@ -1,41 +1,24 @@
 // Biến để chứa dữ liệu sau khi tải từ file JSON
 let tasks = [];
-
-// Hàm tải dữ liệu từ file data.json
+const API_URL = "http://localhost:3000/tasks";
+// 1. Tải dữ liệu từ SQLITE (thông qua Server)
 async function loadData() {
     try {
-        const response = await fetch('data.json');
+        // Thay vì fetch('data.json'), ta gọi API từ server
+        const response = await fetch(API_URL);
         tasks = await response.json();
         renderTasks();
     } catch (error) {
-        console.error("Không thể tải dữ liệu:", error);
-    }
-}
-// 1. Hàm tải dữ liệu từ file data.json
-async function loadData() {
-    try {
-        // Gửi yêu cầu lấy file JSON
-        const response = await fetch('data.json');
-        
-        // Chuyển đổi dữ liệu nhận được thành mảng JavaScript
-        tasks = await response.json();
-        
-        // Sau khi có dữ liệu, gọi hàm hiển thị
-        renderTasks();
-    } catch (error) {
-        console.error("Không thể tải dữ liệu:", error);
+        console.error("Không thể kết nối Server:", error);
     }
 }
 
-// 2. Hàm hiển thị danh sách (CẬP NHẬT: Thêm thanh trạng thái select)
+// 2. Cập nhật hàm renderTasks (Giống cũ nhưng dùng ID từ DB)
 function renderTasks() {
     const todoList = document.getElementById('todo-list');
     todoList.innerHTML = "";
-
     tasks.forEach((item, index) => {
         const li = document.createElement('li');
-
-        // Tạo cấu trúc gồm tên công việc và thanh chọn trạng thái (dropdown)
         li.innerHTML = `
             <div class="task-info">
                 <span class="task-text ${item.completed ? 'checked' : ''}">${item.task}</span>
@@ -48,12 +31,11 @@ function renderTasks() {
                 <button class="delete-btn" onclick="deleteTask(${index})">Xóa</button>
             </div>
         `;
-        
         todoList.appendChild(li);
     });
 }
-// 3. CHỨC NĂNG THÊM CÔNG VIỆC MỚI (MỚI)
-function addTask() {
+// 3. THÊM CÔNG VIỆC (Gửi lên Server)
+async function addTask() {
     const input = document.getElementById('todo-input');
     const taskContent = input.value.trim();
 
@@ -62,20 +44,21 @@ function addTask() {
         return;
     }
 
-    // Tạo đối tượng công việc mới
-    const newTask = {
-        id: tasks.length > 0 ? tasks[tasks.length - 1].id + 1 : 1,
-        task: taskContent,
-        completed: false // Mặc định là chưa xong theo ý bạn
-    };
-
-    // Thêm vào mảng tasks
-    tasks.push(newTask);
-
-    // Xóa nội dung ô nhập và vẽ lại danh sách
-    input.value = "";
-    renderTasks();
-    console.log("Đã thêm công việc mới:", newTask);
+    try {
+        const response = await fetch(API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ task: taskContent })
+        });
+        const newTask = await response.json();
+        
+        tasks.push(newTask); // Thêm kết quả server trả về (có ID từ SQLite) vào mảng
+        input.value = "";
+        renderTasks();
+        console.log("Đã lưu vào SQLite:", newTask);
+    } catch (error) {
+        console.error("Lỗi khi thêm task:", error);
+    }
 }
 // 6. CHỨC NĂNG XÓA CÔNG VIỆC (MỚI)
 function deleteTask(index) {
@@ -89,13 +72,27 @@ function deleteTask(index) {
     }
 }
 // Hàm cập nhật trạng thái khi người dùng thay đổi trên Dropdown
-function updateStatus(index, value) {
-    // Chuyển giá trị từ chuỗi "true"/"false" sang kiểu Boolean
-    tasks[index].completed = (value === "true");
-    
-    // Vẽ lại giao diện để cập nhật hiệu ứng gạch chân
-    renderTasks();
-    console.log("Dữ liệu tạm thời đã thay đổi:", tasks);
+async function updateStatus(index, value) {
+    const isCompleted = (value === "true");
+    const taskId = tasks[index].id; // Lấy ID từ SQLite
+
+    console.log("Gửi yêu cầu cập nhật ID:", taskId, "Trạng thái:", isCompleted);
+
+    try {
+        const response = await fetch(`${API_URL}/${taskId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ completed: isCompleted })
+        });
+
+        if (response.ok) {
+            tasks[index].completed = isCompleted;
+            renderTasks();
+            console.log("Cập nhật thành công trên server");
+        }
+    } catch (error) {
+        console.error("Lỗi khi kết nối server để cập nhật:", error);
+    }
 }
 // 4. Hàm tải về dữ liệu dưới dạng file JSON (MỚI)
 function downloadJSON() {

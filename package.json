@@ -1,0 +1,25 @@
+{
+  "name": "web_co_ban",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/lucasnguyen-23-4-12/PHAT_TRIEN_UNG_DUNG-web_co_ban#readme",
+  "bugs": {
+    "url": "https://github.com/lucasnguyen-23-4-12/PHAT_TRIEN_UNG_DUNG-web_co_ban/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lucasnguyen-23-4-12/PHAT_TRIEN_UNG_DUNG-web_co_ban.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.2.1",
+    "sqlite3": "^5.1.7"
+  }
+}
