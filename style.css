@@ -70,16 +70,12 @@ ul {
 }
 
 ul li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     padding: 12px 15px;
     background: var(--item-bg);
     border-bottom: 1px solid var(--border-color);
-    color: var(--text-color);
-    
-    /* CĂN CHỈNH THẲNG HÀNG TẠI ĐÂY */
-    display: flex;            /* Biến dòng thành một hàng ngang */
-    justify-content: space-between; /* Đẩy 2 phần về 2 đầu đối diện */
-    align-items: center;      /* Căn giữa theo chiều dọc */
-    transition: background 0.2s;
 }
 /* Định dạng cho phần trạng thái */
 .status {
@@ -90,12 +86,24 @@ ul li {
     text-align: center;      /* Chữ căn giữa trong nhãn */
     margin-left: 20px;       /* Tạo khoảng cách với chữ công việc */
 }
-/* Định dạng cho phần chữ công việc */
-.task-text {
-    flex: 1;                 /* Chiếm toàn bộ khoảng trống bên trái */
-    text-align: left;
+.status-select {
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
+    background-color: var(--container-bg);
+    color: var(--text-color);
+    cursor: pointer;
+    outline: none;
 }
-
+/* Định dạng khi chọn "Đã xong" để có màu sắc riêng nếu muốn */
+.status-select option {
+    background-color: var(--container-bg);
+}
+/* Định dạng cho phần chữ công việc */
+.task-text.checked {
+    text-decoration: line-through;
+    color: #888;
+}
 ul li:hover {
     background: #f9f9f9;
 }
@@ -109,4 +117,23 @@ ul li.checked {
 .close {
     color: #ff4d4d;
     font-weight: bold;
+}
+.header-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+#download-json {
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: 1px solid #28a745;
+    background: #28a745;
+    color: white;
+    font-size: 12px;
+}
+
+#download-json:hover {
+    background: #218838;
 }

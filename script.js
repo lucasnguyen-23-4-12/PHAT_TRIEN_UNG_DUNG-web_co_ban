@@ -1,6 +1,16 @@
 // Biến để chứa dữ liệu sau khi tải từ file JSON
 let tasks = [];
 
+// Hàm tải dữ liệu từ file data.json
+async function loadData() {
+    try {
+        const response = await fetch('data.json');
+        tasks = await response.json();
+        renderTasks();
+    } catch (error) {
+        console.error("Không thể tải dữ liệu:", error);
+    }
+}
 // 1. Hàm tải dữ liệu từ file data.json
 async function loadData() {
     try {
@@ -17,31 +27,53 @@ async function loadData() {
     }
 }
 
-// 2. Hàm hiển thị danh sách (Sửa từ initialTasks thành tasks)
+// 2. Hàm hiển thị danh sách (CẬP NHẬT: Thêm thanh trạng thái select)
 function renderTasks() {
     const todoList = document.getElementById('todo-list');
     todoList.innerHTML = "";
 
-    tasks.forEach(item => {
+    tasks.forEach((item, index) => {
         const li = document.createElement('li');
 
-        const statusText = item.completed ? "Đã hoàn thành" : "Chưa hoàn thành";
-        const statusClass = item.completed ? "status-done" : "status-pending";
-
+        // Tạo cấu trúc gồm tên công việc và thanh chọn trạng thái (dropdown)
         li.innerHTML = `
-             
-            <span class="task-text">${item.task}</span>
-            <span class="status ${statusClass}">${statusText}</span>
+            <span class="task-text ${item.completed ? 'checked' : ''}">${item.task}</span>
+            <select class="status-select" onchange="updateStatus(${index}, this.value)">
+                <option value="false" ${!item.completed ? 'selected' : ''}>Chưa xong</option>
+                <option value="true" ${item.completed ? 'selected' : ''}>Đã xong</option>
+            </select>
         `;
         
-        if (item.completed) {
-            li.classList.add('checked');
-        }
-
         todoList.appendChild(li);
     });
 }
-
+// Hàm cập nhật trạng thái khi người dùng thay đổi trên Dropdown
+function updateStatus(index, value) {
+    // Chuyển giá trị từ chuỗi "true"/"false" sang kiểu Boolean
+    tasks[index].completed = (value === "true");
+    
+    // Vẽ lại giao diện để cập nhật hiệu ứng gạch chân
+    renderTasks();
+    console.log("Dữ liệu tạm thời đã thay đổi:", tasks);
+}
+// 4. Hàm tải về dữ liệu dưới dạng file JSON (MỚI)
+function downloadJSON() {
+    // Chuyển mảng tasks thành chuỗi văn bản JSON
+    const dataStr = JSON.stringify(tasks, null, 4);
+    
+    // Tạo file ảo trong bộ nhớ trình duyệt
+    const blob = new Blob([dataStr], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    
+    // Tạo lệnh tải xuống
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'data.json'; 
+    link.click();
+    
+    // Giải phóng bộ nhớ
+    URL.revokeObjectURL(url);
+}
 // Chức năng chuyển đổi Theme
 const themeBtn = document.getElementById('theme-toggle');
 
