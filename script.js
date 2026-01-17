@@ -37,11 +37,16 @@ function renderTasks() {
 
         // Tạo cấu trúc gồm tên công việc và thanh chọn trạng thái (dropdown)
         li.innerHTML = `
-            <span class="task-text ${item.completed ? 'checked' : ''}">${item.task}</span>
-            <select class="status-select" onchange="updateStatus(${index}, this.value)">
-                <option value="false" ${!item.completed ? 'selected' : ''}>Chưa xong</option>
-                <option value="true" ${item.completed ? 'selected' : ''}>Đã xong</option>
-            </select>
+            <div class="task-info">
+                <span class="task-text ${item.completed ? 'checked' : ''}">${item.task}</span>
+            </div>
+            <div class="task-actions">
+                <select class="status-select" onchange="updateStatus(${index}, this.value)">
+                    <option value="false" ${!item.completed ? 'selected' : ''}>Chưa xong</option>
+                    <option value="true" ${item.completed ? 'selected' : ''}>Đã xong</option>
+                </select>
+                <button class="delete-btn" onclick="deleteTask(${index})">Xóa</button>
+            </div>
         `;
         
         todoList.appendChild(li);
@@ -71,6 +76,17 @@ function addTask() {
     input.value = "";
     renderTasks();
     console.log("Đã thêm công việc mới:", newTask);
+}
+// 6. CHỨC NĂNG XÓA CÔNG VIỆC (MỚI)
+function deleteTask(index) {
+    if (confirm("Bạn có chắc chắn muốn xóa công việc này không?")) {
+        // Xóa 1 phần tử tại vị trí index trong mảng tasks
+        tasks.splice(index, 1);
+        
+        // Vẽ lại danh sách sau khi xóa
+        renderTasks();
+        console.log("Đã xóa công việc tại vị trí:", index);
+    }
 }
 // Hàm cập nhật trạng thái khi người dùng thay đổi trên Dropdown
 function updateStatus(index, value) {
