@@ -1,0 +1,22 @@
+/* Màu sắc mặc định (Chế độ sáng) */
+:root {
+    --bg-color: #f4f4f9;
+    --container-bg: #ffffff;
+    --text-color: #333333;
+    --item-bg: #ffffff;
+    --border-color: #eeeeee;
+}
+
+/* Khi kích hoạt Chế độ tối */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --container-bg: #2d2d2d;
+    --text-color: #ffffffe3;
+    --item-bg: #3d3d3d;
+    --border-color: #444444;
+}
+
+/* Hiệu ứng chuyển màu mượt mà áp dụng cho toàn bộ */
+* {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}

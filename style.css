@@ -1,19 +1,4 @@
-/* Định nghĩa biến màu sắc */
-:root {
-    --bg-color: #f4f4f9;
-    --container-bg: #ffffff;
-    --text-color: #333333;
-    --item-bg: #ffffff;
-    --border-color: #eeeeee;
-}
-/* Khi body có class "dark-mode", các biến màu sẽ thay đổi */
-body.dark-mode {
-    --bg-color: #1a1a1a;
-    --container-bg: #2d2d2d;
-    --text-color: #ffffffe3;
-    --item-bg: #3d3d3d;
-    --border-color: #444444;
-}
+
 h2 {
     text-align: center;
     color: var(--text-color); /* Sử dụng biến thay vì mã màu cố định */
