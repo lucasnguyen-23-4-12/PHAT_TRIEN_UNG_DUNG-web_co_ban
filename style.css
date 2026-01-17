@@ -1,0 +1,127 @@
+/* Định nghĩa biến màu sắc */
+:root {
+    --bg-color: #f4f4f9;
+    --container-bg: #ffffff;
+    --text-color: #333333;
+    --item-bg: #ffffff;
+    --border-color: #eeeeee;
+}
+/* Khi body có class "dark-mode", các biến màu sẽ thay đổi */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --container-bg: #2d2d2d;
+    --text-color: #ffffffe3;
+    --item-bg: #3d3d3d;
+    --border-color: #444444;
+}
+h2 {
+    text-align: center;
+    color: var(--text-color); /* Sử dụng biến thay vì mã màu cố định */
+    transition: color 0.3s ease;
+}
+/* Định dạng cơ bản cho toàn bộ trang */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color); /* Sử dụng biến */
+    color: var(--text-color);
+    transition: all 0.3s ease; /* Hiệu ứng chuyển màu mượt mà */
+    display: flex;
+    justify-content: center;
+    padding-top: 50px;
+}
+
+/* Khung chứa danh sách */
+.container {
+    background: var(--container-bg);
+    color: var(--text-color);
+    width: 400px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+/* Nút chuyển đổi giao diện */
+#theme-toggle {
+    margin-bottom: 15px;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: 1px solid var(--text-color);
+    background: transparent;
+    color: var(--text-color);
+}
+
+
+/* Phần nhập dữ liệu */
+.input-section {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px 0 0 5px;
+    outline: none;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #28a745;
+    color: white;
+    cursor: pointer;
+    border-radius: 0 5px 5px 0;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+/* Định dạng danh sách việc làm */
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul li {
+    padding: 12px 15px;
+    background: var(--item-bg);
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-color);
+    
+    /* CĂN CHỈNH THẲNG HÀNG TẠI ĐÂY */
+    display: flex;            /* Biến dòng thành một hàng ngang */
+    justify-content: space-between; /* Đẩy 2 phần về 2 đầu đối diện */
+    align-items: center;      /* Căn giữa theo chiều dọc */
+    transition: background 0.2s;
+}
+/* Định dạng cho phần trạng thái */
+.status {
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 20px;     /* Làm bo tròn cho giống nhãn (label) */
+    min-width: 100px;        /* Độ rộng cố định để các cột thẳng tắp */
+    text-align: center;      /* Chữ căn giữa trong nhãn */
+    margin-left: 20px;       /* Tạo khoảng cách với chữ công việc */
+}
+/* Định dạng cho phần chữ công việc */
+.task-text {
+    flex: 1;                 /* Chiếm toàn bộ khoảng trống bên trái */
+    text-align: left;
+}
+
+ul li:hover {
+    background: #f9f9f9;
+}
+
+/* Đánh dấu công việc đã hoàn thành */
+ul li.checked {
+    text-decoration: line-through;
+    color: #888;
+}
+
+.close {
+    color: #ff4d4d;
+    font-weight: bold;
+}

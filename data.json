@@ -1,0 +1,6 @@
+[
+    { "id": 1, "task": "Học lập trình Web", "completed": false },
+    { "id": 2, "task": "Đọc sách buổi sáng", "completed": false },
+    { "id": 3, "task": "Tập thể dục", "completed": false },
+    { "id": 4, "task": "Nấu ăn tối", "completed": false }
+]
