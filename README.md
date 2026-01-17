@@ -19,7 +19,24 @@ Chức năng:
 - HTML, CSS, JS
 - NodeJS + Express
 - SQLite
-
+┌─────────────────────────────────────┐
+│   BROWSER (Frontend)                │
+│  HTML5 + CSS3 + Vanilla JavaScript  │
+│  Gọi API: fetch(), $.ajax()         │
+└────────────────┬────────────────────┘
+                 │ HTTP Requests
+                 ▼
+┌─────────────────────────────────────┐
+│   Node.js + Express (Backend)       │
+│  Xử lý API: GET, POST, PUT          │
+│  CORS: Cho phép cross-origin        │
+└────────────────┬────────────────────┘
+                 │ SQL Queries
+                 ▼
+┌─────────────────────────────────────┐
+│   SQLite3 Database                  │
+│  Lưu trữ dữ liệu todos              │
+└─────────────────────────────────────┘
 ---
 
 ## ⚙️ Cách cài đặt và chạy project
